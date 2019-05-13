@@ -3,6 +3,8 @@ import styled from 'styled-components';
 
 const StyledSelectInput = styled.select`
 width:600px;
+@media (max-width: 768px) {
+    width:400px;
 `
 
 const SelectInput = (props) =>{
