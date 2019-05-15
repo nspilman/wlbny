@@ -33,10 +33,7 @@ const Bidness = (props) => {
              <h6>
                  Address: {address}</h6>
              <h6>
-                 Website: 
-                <a href={website} target="_blank">
-                    {website}
-                </a>
+                 {website !== ''? <a href = {website} target="_blank">Visit the Website</a> : ''}
              </h6>
         </BidnessComp>
     )
