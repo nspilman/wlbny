@@ -11,18 +11,25 @@ transition: 0.3s;
 }
 `
 
+
+
 const Bidness = (props) => {
     const {name, website,address, typeofbusiness, borough} = props.bidness
+    const stringOutput = (list) =>{
+        let boroughString = '';
+        list.forEach(string => boroughString = boroughString +string+",");
+        return boroughString.slice(0,-1)
+    }
     return (
         <BidnessComp>
             <h3>
                 {name}
             </h3>
             <h4>
-                Category: {typeofbusiness.map(category => {return<span>{category},</span>})}
+                Category: <span>{stringOutput(typeofbusiness)}</span>
             </h4>
              <h5>
-                 Borough(s):{borough.map(borough => {return <span>{borough},</span>})}</h5> 
+                 Borough(s): <span>{stringOutput(borough)}</span></h5> 
              <h6>
                  Address: {address}</h6>
              <h6>

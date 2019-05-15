@@ -3,6 +3,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import StringInput from "./components/StringInput"
 import SelectInput from "./components/SelectInput"
+import ErrorComponent from "./components/ErrorComponent"
 import Bidness from "./components/Bidness"
 import styled from 'styled-components';
 
@@ -30,12 +31,12 @@ class App extends React.Component {
     filter_typeofbusiness:'',
     filter_sub_typeofbusiness:'',
     filteredBidnesses:[],
-    endpoint: "https://natespilman.tech/wlbny/"
+    endpoint: "https://natespilman.tech/wlbny/",
+    errorMessage:'',
   };
     async getBusiness(){
     const response = await fetch(this.state.endpoint);
     const bidnessArray = await response.json();
-    console.log(bidnessArray)
     this.setState({bidnesses:bidnessArray})
         }
     
@@ -105,7 +106,7 @@ showSubTypes(){
 }
 
 componentDidMount(){
-  this.getBusiness()
+  this.getBusiness().catch(e=>this.setState({errorMessage:"Can't Find the Bidnesses!!!"}))
 }
 
 render(){
@@ -123,6 +124,7 @@ render(){
           return <Bidness bidness = {bidness} key={bidness.name}/>
           })}
       </BidnessDisplay>
+      <ErrorComponent message={this.state.errorMessage}/>
     </div> 
   );
 }
