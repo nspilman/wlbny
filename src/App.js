@@ -86,7 +86,21 @@ filterBusinesses(){
  const boroughFilterOutput = this.categoryFilter(this.state.bidnesses,'borough')
  const typeFilterOutput = this.categoryFilter(boroughFilterOutput,'typeofbusiness')
  const inputFilterOutput = this.inputFilter(typeFilterOutput)
- return inputFilterOutput
+ const output= inputFilterOutput.sort((a,b) => {
+   if(a.typeofbusiness[0] > b.typeofbusiness[0]){
+     return 1
+   }
+   if(a.typeofbusiness[0] < b.typeofbusiness[0]){
+     return -1
+   }
+   if(a.name> b.name){
+     return 1
+   }
+   if(a.name<b.name){
+    return -1
+  }
+  })
+ return output;
 }
 
 everythingButBoroughFilter(){
