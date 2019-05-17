@@ -3,6 +3,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import StringInput from "./components/StringInput"
 import SelectInput from "./components/SelectInput"
+import Loading from "./components/Loading"
 import ErrorComponent from "./components/ErrorComponent"
 import Bidness from "./components/Bidness"
 import styled from 'styled-components';
@@ -133,11 +134,18 @@ render(){
         <SelectInput currentVal = {this.state.filter_typeofbusiness} update = {this.updateFilterTypeOfBusiness}  title = "business type" options = {this.getUnique(this.everythingButTypeFilter(),'typeofbusiness')}/>
         <SelectInput currentVal = {this.state.filter_sub_typeofbusiness} update = {this.updateFilterTypeOfBusiness}  title = "business sub-type" options = {this.showSubTypes()}/>
     </FilterWrapper>
+    {
+      this.filterBusinesses().length > 0 && this.state.errorMessage !==''? (
       <BidnessDisplay>
         {this.filterBusinesses().map(bidness =>{
           return <Bidness bidness = {bidness} key={bidness.name}/>
           })}
       </BidnessDisplay>
+    )
+    :
+    <Loading/>
+    }
+      
       <ErrorComponent message={this.state.errorMessage}/>
     </div> 
   );
