@@ -75,6 +75,10 @@ updateFilterBorough = (value) => {
   this.setState({filter_borough:value})
 }
 
+updateSubTypeOfBusiness = (value) => {
+  this.setState({filter_sub_typeofbusiness:value})
+}
+
 updateFilterTypeOfBusiness = (value) => {
   this.setState({filter_typeofbusiness:value})
 }
@@ -132,18 +136,18 @@ render(){
         <StringInput update={this.updateInputString}/>
         <SelectInput update = {this.updateFilterBorough} currentVal = {this.state.filter_borough} title = "borough" options = {this.getUnique(this.everythingButBoroughFilter(),'borough')}/>
         <SelectInput currentVal = {this.state.filter_typeofbusiness} update = {this.updateFilterTypeOfBusiness}  title = "business type" options = {this.getUnique(this.everythingButTypeFilter(),'typeofbusiness')}/>
-        <SelectInput currentVal = {this.state.filter_sub_typeofbusiness} update = {this.updateFilterTypeOfBusiness}  title = "business sub-type" options = {this.showSubTypes()}/>
+        <SelectInput currentVal = {this.state.filter_sub_typeofbusiness} update = {this.updateSubTypeOfBusiness}  title = "business sub-type" options = {this.showSubTypes()}/>
     </FilterWrapper>
     {
-      this.filterBusinesses().length > 0 && this.state.errorMessage !==''? (
+      // this.filterBusinesses().length > 0 && this.state.errorMessage !==''? (
       <BidnessDisplay>
         {this.filterBusinesses().map(bidness =>{
           return <Bidness bidness = {bidness} key={bidness.name}/>
           })}
       </BidnessDisplay>
-    )
-    :
-    <Loading/>
+    // )
+    // :
+    // <Loading/>
     }
       
       <ErrorComponent message={this.state.errorMessage}/>
