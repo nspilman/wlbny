@@ -64,8 +64,22 @@ inputFilter(bidnesses){
 }
 
 categoryFilter(bidnesses,category){
-  return this.state['filter_' + category] !== "" ? bidnesses.filter(bidness => bidness[category].some(value => value.trim() === this.state['filter_'+ category])) : bidnesses
-}
+    return this.state['filter_' + category] !== "" ? bidnesses.filter(bidness => 
+      {
+        if(bidness[category]){
+          let val = bidness[category];
+          if(typeof val == 'string'){
+            val = new Array(val)
+          }
+          console.log(val)
+      return val.some(value => value.trim() === this.state['filter_'+ category]) 
+      }
+    }
+      )
+      : bidnesses
+  }
+
+
 
 updateInputString = (string) => {
   this.setState({filter_string:string.toLowerCase()})
@@ -91,7 +105,8 @@ filterBusinesses(){
  const boroughFilterOutput = this.categoryFilter(this.state.bidnesses,'borough')
  const typeFilterOutput = this.categoryFilter(boroughFilterOutput,'typeofbusiness')
  const inputFilterOutput = this.inputFilter(typeFilterOutput)
- const output= inputFilterOutput.sort((a,b) => {
+ const subTypeFilterOutput = this.categoryFilter(inputFilterOutput,"sub_typeofbusiness")
+ const output = subTypeFilterOutput.sort((a,b) => {
    if(a.typeofbusiness[0] > b.typeofbusiness[0]){
      return 1
    }
@@ -120,6 +135,14 @@ everythingButTypeFilter(){
   return inputFilterOutput
 }
 
+everythingButSubTypeFilter(){
+  const boroughFilterOutput = this.categoryFilter(this.state.bidnesses,'borough')
+  const inputFilterOutput = this.inputFilter(boroughFilterOutput)
+  const typeFilterOutput = this.categoryFilter(inputFilterOutput,'typeofbusiness')
+  return typeFilterOutput
+}
+
+
 showSubTypes(){
   return this.state.filter_typeofbusiness !== '' ? this.getUnique(this.filterBusinesses(),'sub_typeofbusiness') : []
 }
@@ -129,6 +152,7 @@ componentDidMount(){
 }
 
 render(){
+  // console.log(this.state.filter_sub_typeofbusiness)
   return (
     <div className="App">
     <FilterWrapper>
@@ -136,7 +160,7 @@ render(){
         <StringInput update={this.updateInputString}/>
         <SelectInput update = {this.updateFilterBorough} currentVal = {this.state.filter_borough} title = "borough" options = {this.getUnique(this.everythingButBoroughFilter(),'borough')}/>
         <SelectInput currentVal = {this.state.filter_typeofbusiness} update = {this.updateFilterTypeOfBusiness}  title = "business type" options = {this.getUnique(this.everythingButTypeFilter(),'typeofbusiness')}/>
-        <SelectInput currentVal = {this.state.filter_sub_typeofbusiness} update = {this.updateSubTypeOfBusiness}  title = "business sub-type" options = {this.showSubTypes()}/>
+        <SelectInput currentVal = {this.state.filter_sub_typeofbusiness} update = {this.updateSubTypeOfBusiness}  title = "business sub-type" options = {this.getUnique(this.everythingButSubTypeFilter(),'sub_typeofbusiness')}/>
     </FilterWrapper>
     {
       // this.filterBusinesses().length > 0 && this.state.errorMessage !==''? (
