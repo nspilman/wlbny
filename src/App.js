@@ -144,7 +144,7 @@ everythingButSubTypeFilter(){
 
 
 showSubTypes(){
-  return this.state.filter_typeofbusiness !== '' ? this.getUnique(this.filterBusinesses(),'sub_typeofbusiness') : []
+  return this.state.filter_typeofbusiness !== '' ? this.getUnique(this.everythingButSubTypeFilter(),'sub_typeofbusiness') : []
 }
 
 componentDidMount(){
@@ -160,7 +160,7 @@ render(){
         <StringInput update={this.updateInputString}/>
         <SelectInput update = {this.updateFilterBorough} currentVal = {this.state.filter_borough} title = "borough" options = {this.getUnique(this.everythingButBoroughFilter(),'borough')}/>
         <SelectInput currentVal = {this.state.filter_typeofbusiness} update = {this.updateFilterTypeOfBusiness}  title = "business type" options = {this.getUnique(this.everythingButTypeFilter(),'typeofbusiness')}/>
-        <SelectInput currentVal = {this.state.filter_sub_typeofbusiness} update = {this.updateSubTypeOfBusiness}  title = "business sub-type" options = {this.getUnique(this.everythingButSubTypeFilter(),'sub_typeofbusiness')}/>
+        <SelectInput currentVal = {this.state.filter_sub_typeofbusiness} update = {this.updateSubTypeOfBusiness}  title = "business sub-type" options = {this.showSubTypes()}/>
     </FilterWrapper>
     {
       // this.filterBusinesses().length > 0 && this.state.errorMessage !==''? (
